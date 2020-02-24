@@ -31,7 +31,14 @@ function getJSONObject(req) {
 
     return json;
 }
+//Edited----------------------------------------------
+router.get('/movies', function (req, res) {
+    console.log('to MOVIES PAGE')
+    var answers = getJSONObject(req)
+    res.status(200).send({status: 200, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
+})
 
+//End Edited----------------------------------------
 router.route('/post')
     .post(authController.isAuthenticated, function (req, res) {
             console.log(req.body);

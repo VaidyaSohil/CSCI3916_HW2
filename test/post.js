@@ -51,7 +51,7 @@ describe('Register, Login and check token', () => {
                                 .send({ echo: '' })
                                 .end((err, res) => {
                                     res.should.have.status(200);
-                                    res.body.should.have.property('echo')
+                                    res.body.should.have.property('echo');
 ;
                                     done(); // Don't forget the done callback to indicate we're done!
                                 })
