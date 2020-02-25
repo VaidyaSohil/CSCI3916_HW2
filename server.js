@@ -6,8 +6,10 @@ var authController = require('./auth');
 var authJwtController = require('./auth_jwt');
 db = require('./db')(); //global hack
 var jwt = require('jsonwebtoken');
+var cors = require('cors');
 
 var app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -31,23 +33,6 @@ function getJSONObject(req) {
 
     return json;
 }
-
-//Edited----------------------------------------------
-router.get('/movies', function (req, res) {
-    console.log('to movies GET method')
-    var answers = getJSONObject(req)
-    res.status(200).send({status: 200, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
-})
-
-router.post('/movies', function (req, res) {
-    console.log('to movies POST method')
-    var answers = getJSONObject(req)
-    res.status(200).send({status: 200, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
-})
-
-
-
-//End Edited----------------------------------------
 
 router.route('/post')
     .post(authController.isAuthenticated, function (req, res) {
@@ -90,25 +75,45 @@ router.post('/signup', function(req, res) {
 
 router.post('/signin', function(req, res) {
 
-        var user = db.findOne(req.body.username);
+    var user = db.findOne(req.body.username);
 
-        if (!user) {
-            res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+    if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+    }
+    else {
+        // check if password matches
+        if (req.body.password == user.password)  {
+            var userToken = { id : user.id, username: user.username };
+            var token = jwt.sign(userToken, process.env.SECRET_KEY);
+            res.json({success: true, token: 'JWT ' + token});
         }
         else {
-            // check if password matches
-            if (req.body.password == user.password)  {
-                var userToken = { id : user.id, username: user.username };
-                var token = jwt.sign(userToken, process.env.SECRET_KEY);
-                res.json({success: true, token: 'JWT ' + token});
-            }
-            else {
-                res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
-            }
-        };
+            res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+        }
+    };
 });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 
 module.exports = app; // for testing
+
+//Edited----------------------------------------------
+// //GET METHOD
+// router.get('/movies', function (req, res) {
+//     console.log('to movies GET method')
+//     var answers = getJSONObject(req);
+//     res.status(200).send({status: answers.status, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
+// })
+//
+// //POST METHOD
+// router.post('/movies', function (req, res) {
+//     console.log('to movies POST method')
+//     var answers = getJSONObject(req);
+//     res.status(200).send({status: answers.status, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
+// })
+//
+// //PUT METHOD
+//
+
+//End Edited----------------------------------------
