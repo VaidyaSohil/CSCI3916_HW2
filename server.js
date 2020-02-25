@@ -65,7 +65,7 @@ router.route('/movies')
 //End Edited----------------------------------------
 
 router.route('/post')
-    .post(authController.isAuthenticated, function (req, res) {
+    .put(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
             res = res.status(200);
             if (req.get('Content-Type')) {
