@@ -21,7 +21,8 @@ function getJSONObject(req) {
     var json = {
         headers : "No Headers",
         key: process.env.UNIQUE_KEY,
-        body : "No Body"
+        body : "No Body",
+        query : "No Queries"
     };
 
     if (req.body != null) {
@@ -29,6 +30,9 @@ function getJSONObject(req) {
     }
     if (req.headers != null) {
         json.headers = req.headers;
+    }
+    if (req.query != null) {
+        json.query = req.query;
     }
 
     return json;
@@ -40,15 +44,15 @@ function getJSONObject(req) {
 router.get('/movies', function (req, res) {
     console.log('to movies GET method')
     var answers = getJSONObject(req);
-    console.log()
-    res.status(200).send({status: responseCode.code, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
+    console.log(answers);
+    res.status(200).send({status: 200, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
 })
 
 //POST METHOD
 router.post('/movies', function (req, res) {
     console.log('to movies POST method')
     var answers = getJSONObject(req);
-    res.status(200).send({status: responseCode.code, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
+    res.status(200).send({status: 200, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
 })
 
 //PUT METHOD
@@ -60,8 +64,8 @@ router.route('/movies')
                 console.log("Content-Type: " + req.get('Content-Type'));
                 res = res.type(req.get('Content-Type'));
             }
-            var answer = getJSONObject(req);
-            res.status(200).send({status: responseCode.code, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});        }
+            var answers = getJSONObject(req);
+            res.send({status: 200, message: 'movie updated', headers: answers.headers, query: answers.query, env: answers.key});        }
     );
 //End Edited----------------------------------------
 
