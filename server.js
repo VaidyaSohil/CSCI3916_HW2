@@ -56,17 +56,17 @@ router.post('/movies', function (req, res) {
 })
 
 //PUT METHOD
-router.route('/movies')
-    .put(authJwtController.isAuthenticated, function (req, res) {
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                console.log("Content-Type: " + req.get('Content-Type'));
-                res = res.type(req.get('Content-Type'));
-            }
-            var answers = getJSONObject(req);
-            res.send({status: 200, message: 'movie updated', headers: answers.headers, query: answers.query, env: answers.key});        }
-    );
+// router.route('/movies')
+//     .put(authJwtController.isAuthenticated, function (req, res) {
+//             console.log(req.body);
+//             res = res.status(200);
+//             if (req.get('Content-Type')) {
+//                 console.log("Content-Type: " + req.get('Content-Type'));
+//                 res = res.type(req.get('Content-Type'));
+//             }
+//             var answers = getJSONObject(req);
+//             res.send({status: 200, message: 'movie updated', headers: answers.headers, query: answers.query, env: answers.key});        }
+//     );
 
 //DELETE METHOD
 router.route('/movies')
