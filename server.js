@@ -40,14 +40,15 @@ function getJSONObject(req) {
 router.get('/movies', function (req, res) {
     console.log('to movies GET method')
     var answers = getJSONObject(req);
-    res.status(200).send({status: answers.status, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
+    console.log()
+    res.status(200).send({status: responseCode.code, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
 })
 
 //POST METHOD
 router.post('/movies', function (req, res) {
     console.log('to movies POST method')
     var answers = getJSONObject(req);
-    res.status(200).send({status: answers.status, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
+    res.status(200).send({status: responseCode.code, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
 })
 
 //PUT METHOD
@@ -60,7 +61,7 @@ router.route('/movies')
                 res = res.type(req.get('Content-Type'));
             }
             var answer = getJSONObject(req);
-            res.status(200).send({status: answers.status, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});        }
+            res.status(200).send({status: responseCode.code, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});        }
     );
 //End Edited----------------------------------------
 
