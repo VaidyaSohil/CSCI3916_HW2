@@ -52,7 +52,6 @@ router.post('/movies', function (req, res) {
 
 //PUT METHOD
 
-
 //End Edited----------------------------------------
 
 router.route('/post')
