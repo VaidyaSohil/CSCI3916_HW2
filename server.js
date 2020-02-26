@@ -69,16 +69,10 @@ router.route('/movies')
     );
 
 //DELETE METHOD
-router.route('/movies')
-    .delete(authJwtController.isAuthenticated, function (req, res) {
-        console.log(req.body);
-        res = res.status(200);
-        if (req.get('Content-Type')) {
-            console.log("Content-Type: " + req.get('Content-Type'));
-            res = res.type(req.get('Content-Type'));
+router.route('/post')
+    .post(authController.isAuthenticated, function (req, res) {
+            res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});
         }
-        var answers = getJSONObject(req);
-        res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});        }
     );
 //End Edited----------------------------------------
 
