@@ -71,7 +71,8 @@ router.route('/movies')
 //DELETE METHOD
 router.route('/movies')
     .delete(authController.isAuthenticated, function (req, res) {
-            res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});
+        var answers = getJSONObject(req);
+        res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});
         }
     );
 //End Edited----------------------------------------
