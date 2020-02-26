@@ -69,8 +69,8 @@ router.route('/movies')
     );
 
 //DELETE METHOD
-router.route('/post')
-    .post(authController.isAuthenticated, function (req, res) {
+router.route('/delete')
+    .delete(authController.isAuthenticated, function (req, res) {
             res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});
         }
     );
