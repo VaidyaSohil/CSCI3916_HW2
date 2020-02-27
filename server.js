@@ -39,42 +39,71 @@ function getJSONObject(req) {
 }
 
 //Edited----------------------------------------------
-
-//GET METHOD
-router.get('/movies', function (req, res) {
-    console.log('to movies GET method')
-    var answers = getJSONObject(req);
-    console.log(answers);
-    res.status(200).send({status: 200, message: 'GET movies', headers: answers.headers, query: answers.query, env: answers.key});
-})
-
-//POST METHOD
-router.post('/movies', function (req, res) {
-    console.log('to movies POST method')
-    var answers = getJSONObject(req);
-    res.status(200).send({status: 200, message: 'movie saved', headers: answers.headers, query: answers.query, env: answers.key});
-})
-
-//PUT METHOD
-router.route('/movies')
-    .put(authJwtController.isAuthenticated, function (req, res) {
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                console.log("Content-Type: " + req.get('Content-Type'));
-                res = res.type(req.get('Content-Type'));
-            }
-            var answers = getJSONObject(req);
-            res.send({status: 200, message: 'movie updated', headers: answers.headers, query: answers.query, env: answers.key});        }
-    );
-
-//DELETE METHOD
-router.route('/movies')
-    .delete(authController.isAuthenticated, function (req, res) {
+if(router.post('/movies') || router.get('/movies') || router.delete('/movies') || router.put('/movies')) {
+    //GET METHOD
+    router.get('/movies', function (req, res) {
+        console.log('to movies GET method')
         var answers = getJSONObject(req);
-        res.send({status: 200, message: 'movie deleted', headers: answers.headers, query: answers.query, env: answers.key});
-        }
-    );
+        console.log(answers);
+        res.status(200).send({
+            status: 200,
+            message: 'GET movies',
+            headers: answers.headers,
+            query: answers.query,
+            env: answers.key
+        });
+    })
+
+    //POST METHOD
+    router.post('/movies', function (req, res) {
+        console.log('to movies POST method')
+        var answers = getJSONObject(req);
+        res.status(200).send({
+            status: 200,
+            message: 'movie saved',
+            headers: answers.headers,
+            query: answers.query,
+            env: answers.key
+        });
+    })
+
+    //PUT METHOD
+    router.route('/movies')
+        .put(authJwtController.isAuthenticated, function (req, res) {
+                console.log(req.body);
+                res = res.status(200);
+                if (req.get('Content-Type')) {
+                    console.log("Content-Type: " + req.get('Content-Type'));
+                    res = res.type(req.get('Content-Type'));
+                }
+                var answers = getJSONObject(req);
+                res.send({
+                    status: 200,
+                    message: 'movie updated',
+                    headers: answers.headers,
+                    query: answers.query,
+                    env: answers.key
+                });
+            }
+        );
+
+    //DELETE METHOD
+    router.route('/movies')
+        .delete(authController.isAuthenticated, function (req, res) {
+                var answers = getJSONObject(req);
+                res.send({
+                    status: 200,
+                    message: 'movie deleted',
+                    headers: answers.headers,
+                    query: answers.query,
+                    env: answers.key
+                });
+            }
+        );
+}
+else
+//ALL OTHER METHOD
+    res.send({msg: 'DOES NOT SUPPORT THIS HTTP METHOD'});
 //End Edited----------------------------------------
 
 router.route('/post')
